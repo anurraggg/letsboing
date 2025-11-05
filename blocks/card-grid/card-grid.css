@@ -1,0 +1,63 @@
+/* This is the <ul> that holds the grid */
+.card-grid.block ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* 3 columns on desktop */
+    gap: 1.5rem; /* Space between cards */
+  }
+  
+  /* On tablets, go to 2 columns */
+  @media (max-width: 900px) {
+    .card-grid.block ul {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  /* On mobile, go to 1 column */
+  @media (max-width: 600px) {
+    .card-grid.block ul {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  /* This is the <li>, each individual card */
+  .card-item {
+    position: relative; /* This is key for overlaying text */
+    border-radius: 12px;
+    overflow: hidden; /* Clips the image to the rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* The image wrapper */
+  .card-image img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5; /* Makes the card taller than it is wide */
+    object-fit: cover;
+    display: block;
+  }
+  
+  /* The text wrapper that sits on top */
+  .card-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1.25rem;
+    color: white;
+    
+    /* Adds a subtle dark gradient at the top so white text is readable */
+    background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+  }
+  
+  .card-text h3 {
+    font-size: var(--heading-font-size-s);
+    margin: 0;
+  }
+  
+  .card-text p {
+    font-size: var(--body-font-size-xs);
+    margin: 0.25rem 0 0;
+  }
