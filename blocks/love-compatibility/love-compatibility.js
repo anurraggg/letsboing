@@ -41,6 +41,19 @@ function createField(labelText, type, placeholder, name) {
       // Add calendar icon
       const icon = document.createElement('span');
       icon.classList.add('icon', 'icon-calendar');
+
+      // --- START: NEW CLICK LOGIC ---
+      // Make the icon clickable
+      icon.addEventListener('click', () => {
+        input.type = 'date'; // Change the input type
+        input.focus();     // Focus the input to open the picker
+        // Modern browsers also support showPicker()
+        if (typeof input.showPicker === 'function') {
+          input.showPicker();
+        }
+      });
+      // --- END: NEW CLICK LOGIC ---
+
       inputWrapper.append(input, icon);
     } else {
       inputWrapper.append(input);
@@ -68,12 +81,9 @@ export default async function decorate(block) {
   rows.forEach((row) => {
     const label = row.children[0]?.textContent.trim();
 
-    // --- THIS IS THE CHANGED LINE ---
     if (label === 'Title') {
-    // ---------------------------------
       // This is the block title, not a field
       const header = document.createElement('div');
-      // Use the new block name for the class
       header.classList.add('love-compatibility-header'); 
       header.innerHTML = row.children[1].innerHTML;
       // Put the header *before* the form

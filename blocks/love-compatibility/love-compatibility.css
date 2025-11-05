@@ -48,7 +48,7 @@
     box-sizing: border-box; /* Important for padding */
   }
   
-  /* Specific styles for the date field */
+  /* --- START: CHANGED CSS RULE --- */
   .form-input-wrapper .icon-calendar {
     position: absolute;
     top: 50%;
@@ -56,8 +56,11 @@
     transform: translateY(-50%);
     width: 20px;
     height: 20px;
-    pointer-events: none; /* Lets you click "through" the icon */
+    /* pointer-events: none;  <-- REMOVED */
+    cursor: pointer; /* <-- ADDED */
   }
+  /* --- END: CHANGED CSS RULE --- */
+  
   
   /* Hide the browser's default calendar icon */
   .form-field-wrapper input[type="date"]::-webkit-calendar-picker-indicator {
