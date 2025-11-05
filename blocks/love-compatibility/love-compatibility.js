@@ -68,7 +68,9 @@ export default async function decorate(block) {
   rows.forEach((row) => {
     const label = row.children[0]?.textContent.trim();
 
-    if (label === 'Header') {
+    // --- THIS IS THE CHANGED LINE ---
+    if (label === 'Title') {
+    // ---------------------------------
       // This is the block title, not a field
       const header = document.createElement('div');
       // Use the new block name for the class
