@@ -5,7 +5,7 @@ export default function decorate(block) {
   const ul = document.createElement('ul');
   
   // Get all rows except the first one (which is the block name)
-  const rows = [...block.children].slice(1);
+  const rows = [...block.children];
   
   rows.forEach((row) => {
     // Create the <li> for each card
