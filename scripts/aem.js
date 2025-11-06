@@ -625,24 +625,31 @@ async function loadFooter(footer) {
     const temp = document.createElement('div');
     temp.innerHTML = html;
 
-    // Extract alternating key/value pairs
-    const divs = Array.from(temp.querySelectorAll('div'));
-    const data = [];
+    // Extract all text content (flat)
+    const text = temp.textContent
+      .replace(/\s+/g, ' ')
+      .trim();
 
-    for (let i = 0; i < divs.length; i += 2) {
-      const key = divs[i]?.textContent?.trim();
-      const value = divs[i + 1]?.textContent?.trim();
+    // Split the text into tokens
+    const tokens = text.split(' ');
+
+    // Now rebuild into key/value pairs
+    const data = [];
+    for (let i = 0; i < tokens.length; i += 2) {
+      const key = tokens[i];
+      const value = tokens[i + 1];
       if (key && value && key !== 'Type' && key !== 'Value') {
         data.push({ key, value });
       }
     }
 
     if (!data.length) {
-      console.warn('⚠️ No footer data found in footer.plain.html');
+      console.warn('⚠️ No footer data parsed from plain.html');
+      console.log('Raw text:', text);
       return;
     }
 
-    // Build nested HTML (what your decorator expects)
+    // Build proper nested HTML for your decorator
     const blockHTML = data
       .map(({ key, value }) => `<div><div>${key}</div><div>${value}</div></div>`)
       .join('');
