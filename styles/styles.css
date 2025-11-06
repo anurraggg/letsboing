@@ -261,3 +261,7 @@ main .section.narrow-grid {
   margin-left: auto;  /* <-- ADD THIS LINE */
   margin-right: auto; /* <-- AND THIS LINE */
 }
+
+.section.love-compatibility-container{
+  padding-top: 30px;
+}

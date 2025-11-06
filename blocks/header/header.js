@@ -1,6 +1,6 @@
 export default function decorate(block) {
     // 1️⃣ Set your logo image path and optional link
-    const logoImageUrl = '/icons/header-logo.png'; // <-- ✅ change this to your image path
+    const logoImageUrl = '/icons/lets-boing-logo.png'; // <-- ✅ change this to your image path
     const logoLinkUrl = '/'; // optional: where the logo should take you when clicked
   
     // 2️⃣ Create the menu icon (hamburger)
