@@ -618,6 +618,7 @@ async function loadHeader(header) {
 
 /**
  * Loads a block named 'footer' into footer
+ * @param {Element} footer footer element
  * @param footer footer element
  * @returns {Promise}
  */
