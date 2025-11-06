@@ -617,37 +617,55 @@ async function loadHeader(header) {
 }
 
 /**
- * Loads the 'newsletter-signup' block from the footer.docx plain HTML
- * @param {Element} footer footer element
- * @returns {Promise}
+ * Loads and reconstructs the newsletter-signup block properly from footer.plain.html
+ * @param {Element} footer
  */
  async function loadFooter(footer) {
   try {
     const resp = await fetch('/footer.plain.html');
     if (!resp.ok) throw new Error(`Footer not found: ${resp.status}`);
-    const html = await resp.text();
 
+    const html = await resp.text();
     const temp = document.createElement('div');
     temp.innerHTML = html;
 
-    // Find the block or the rows directly — EDS sometimes renders plain tables as divs
-    const blockContent = temp.querySelector('.newsletter-signup, .block, div');
+    // Extract key-value pairs manually from plain.html
+    const divs = Array.from(temp.querySelectorAll('div'));
+    const data = [];
 
-    if (!blockContent) {
-      throw new Error('No block or div content found in footer.plain.html');
+    // Plain EDS footer outputs alternating divs (Type, Value, Type, Value)
+    for (let i = 0; i < divs.length; i += 2) {
+      const key = divs[i]?.textContent?.trim();
+      const value = divs[i + 1]?.textContent?.trim();
+      if (key && value && key !== 'Type' && key !== 'Value') {
+        data.push({ key, value });
+      }
     }
 
-    // Build block manually using the inner HTML of what we found
-    const footerBlock = buildBlock('newsletter-signup', blockContent.innerHTML);
+    // Create a block container
+    const block = document.createElement('div');
+    block.classList.add('block', 'newsletter-signup');
 
-    footer.append(footerBlock);
-    decorateBlock(footerBlock);
-    await loadBlock(footerBlock);
-    console.log('✅ Footer loaded successfully!');
+    // Rebuild structure into row format expected by your decorator
+    data.forEach((item) => {
+      const row = document.createElement('div');
+      const typeCell = document.createElement('div');
+      typeCell.textContent = item.key;
+      const valueCell = document.createElement('div');
+      valueCell.textContent = item.value;
+      row.append(typeCell, valueCell);
+      block.append(row);
+    });
+
+    footer.append(block);
+    decorateBlock(block);
+    await loadBlock(block);
+    console.log('✅ Footer loaded and reconstructed successfully!');
   } catch (e) {
     console.error('❌ Error loading footer:', e);
   }
 }
+
 
 
  /* Wait for Image.
