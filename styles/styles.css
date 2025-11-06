@@ -257,7 +257,7 @@ main .section.highlight {
 }
 
 main .section.narrow-grid {
-  max-width: 800px; /* Or 800px, or whatever width you want */
+  max-width: 600px; /* Or 800px, or whatever width you want */
   margin-left: auto;  /* <-- ADD THIS LINE */
   margin-right: auto; /* <-- AND THIS LINE */
 }

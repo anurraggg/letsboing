@@ -40,9 +40,9 @@
   
   .blog-card-image img {
     width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
+    height: 18rem; /* <-- This is your desktop change */
+    object-fit: cover; /* <-- ADDED: Prevents image stretching */
+    /* aspect-ratio: 1 / 1;  <-- REMOVED: Redundant with fixed height */
     display: block;
   }
   
@@ -90,6 +90,13 @@
   
   /* On mobile, reduce text size */
   @media (max-width: 599px) {
+    /* --- THIS IS THE FIX --- */
+    .blog-card-image img {
+      height: 7rem; /* Resets the height */
+      aspect-ratio: 16 / 9; /* Sets a responsive aspect ratio for mobile */
+    }
+    /* ------------------------- */
+  
     .blog-card-text {
       padding: 0.75rem;
     }
