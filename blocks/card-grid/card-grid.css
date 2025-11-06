@@ -1,11 +1,8 @@
-/* --- THIS IS THE NEW RULE --- */
 /* This wrapper constrains the whole block */
 .card-grid-wrapper {
-  max-width: 960px; /* Sets a max width for the entire grid */
-  margin: 2rem auto; /* Centers the grid on the page */
+  max-width: 800px; /* <-- ADJUST THIS: Controls the overall width of the grid */
+  margin: 2rem auto; 
 }
-/* ---------------------------- */
-
 
 /* This is the <ul> that holds the grid */
 .card-grid.block ul {
@@ -41,9 +38,9 @@
 
 /* The image wrapper */
 .card-image img {
-  width: 100%;
+  width: 100%; /* <-- IMPORTANT: Image fills 100% of its container */
   height: auto;
-  aspect-ratio: 4 / 5; /* Makes the card taller than it is wide */
+  aspect-ratio: 1 / 1; /* <-- ADJUST THIS: Controls the height (e.g., 4/5, 1/1, 16/9) */
   object-fit: cover;
   display: block;
 }
