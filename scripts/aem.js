@@ -615,9 +615,8 @@ async function loadHeader(header) {
   decorateBlock(headerBlock);
   return loadBlock(headerBlock);
 }
-
 /**
- * Loads and reconstructs the newsletter-signup block properly from footer.plain.html
+ * Loads and reconstructs the newsletter-signup block from footer.plain.html
  * @param {Element} footer
  */
  async function loadFooter(footer) {
@@ -629,11 +628,10 @@ async function loadHeader(header) {
     const temp = document.createElement('div');
     temp.innerHTML = html;
 
-    // Extract key-value pairs manually from plain.html
+    // Extract valid Type/Value pairs
     const divs = Array.from(temp.querySelectorAll('div'));
     const data = [];
 
-    // Plain EDS footer outputs alternating divs (Type, Value, Type, Value)
     for (let i = 0; i < divs.length; i += 2) {
       const key = divs[i]?.textContent?.trim();
       const value = divs[i + 1]?.textContent?.trim();
@@ -642,29 +640,38 @@ async function loadHeader(header) {
       }
     }
 
-    // Create a block container
+    // Clear any previous footer content
+    footer.innerHTML = '';
+
+    // Build one clean block wrapper
     const block = document.createElement('div');
     block.classList.add('block', 'newsletter-signup');
 
-    // Rebuild structure into row format expected by your decorator
-    data.forEach((item) => {
+    // Populate block rows
+    data.forEach(({ key, value }) => {
       const row = document.createElement('div');
       const typeCell = document.createElement('div');
-      typeCell.textContent = item.key;
       const valueCell = document.createElement('div');
-      valueCell.textContent = item.value;
+      typeCell.textContent = key;
+      valueCell.textContent = value;
       row.append(typeCell, valueCell);
       block.append(row);
     });
 
+    // Append to footer
     footer.append(block);
+
+    // Clean up any accidental nested blocks
+    footer.querySelectorAll('.block.block').forEach((dup) => dup.remove());
+
     decorateBlock(block);
     await loadBlock(block);
-    console.log('✅ Footer loaded and reconstructed successfully!');
+    console.log('✅ Footer loaded successfully without ghost blocks!');
   } catch (e) {
     console.error('❌ Error loading footer:', e);
   }
 }
+
 
 
 
