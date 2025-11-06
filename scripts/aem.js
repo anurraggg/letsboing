@@ -616,7 +616,12 @@ async function loadHeader(header) {
   return loadBlock(headerBlock);
 }
 
-async function loadFooter(footer) {
+/**
+ * Loads the 'newsletter-signup' block from the footer.docx plain HTML
+ * @param {Element} footer footer element
+ * @returns {Promise}
+ */
+ async function loadFooter(footer) {
   try {
     const resp = await fetch('/footer.plain.html');
     if (!resp.ok) throw new Error(`Footer not found: ${resp.status}`);
@@ -625,20 +630,25 @@ async function loadFooter(footer) {
     const temp = document.createElement('div');
     temp.innerHTML = html;
 
-    // Look for the table wrapper (EDS plain output)
-    const table = temp.querySelector('table');
-    if (!table) throw new Error('No table found in footer.plain.html');
+    // Find the block or the rows directly — EDS sometimes renders plain tables as divs
+    const blockContent = temp.querySelector('.newsletter-signup, .block, div');
 
-    // Build the block manually (same as in your footer.docx)
-    const footerBlock = buildBlock('newsletter-signup', table.outerHTML);
+    if (!blockContent) {
+      throw new Error('No block or div content found in footer.plain.html');
+    }
+
+    // Build block manually using the inner HTML of what we found
+    const footerBlock = buildBlock('newsletter-signup', blockContent.innerHTML);
+
     footer.append(footerBlock);
     decorateBlock(footerBlock);
     await loadBlock(footerBlock);
-    console.log('Footer loaded successfully!');
+    console.log('✅ Footer loaded successfully!');
   } catch (e) {
-    console.error('Error loading footer:', e);
+    console.error('❌ Error loading footer:', e);
   }
 }
+
 
  /* Wait for Image.
  * @param {Element} section section element
