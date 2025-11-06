@@ -617,18 +617,28 @@ async function loadHeader(header) {
 }
 
 /**
- * Loads a block named 'footer' into footer
+ * Loads a block named 'newsletter-signup' into footer
  * @param {Element} footer footer element
- * @param footer footer element
  * @returns {Promise}
  */
-async function loadFooter(footer) {
-  const footerBlock = buildBlock('newsletter-signup', '');
-  footer.append(footerBlock);
-  decorateBlock(footerBlock);
-  return loadBlock(footerBlock);
-}
+ async function loadFooter(footer) {
+  // Fetch the markup from your footer docx
+  const resp = await fetch('/footer.plain.html');
+  const html = await resp.text();
 
+  // Create a temporary container
+  const temp = document.createElement('div');
+  temp.innerHTML = html;
+
+  // Extract the newsletter-signup block from that HTML
+  const footerBlock = temp.querySelector('.block.newsletter-signup');
+
+  if (footerBlock) {
+    footer.append(footerBlock);
+    decorateBlock(footerBlock);
+    return loadBlock(footerBlock);
+  }
+}
 /**
  * Wait for Image.
  * @param {Element} section section element
