@@ -615,6 +615,7 @@ async function loadHeader(header) {
   decorateBlock(headerBlock);
   return loadBlock(headerBlock);
 }
+
 /**
  * Loads and reconstructs the newsletter-signup block from footer.plain.html
  * @param {Element} footer
@@ -671,9 +672,6 @@ async function loadHeader(header) {
     console.error('❌ Error loading footer:', e);
   }
 }
-
-
-
 
  /* Wait for Image.
  * @param {Element} section section element
