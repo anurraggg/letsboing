@@ -22,7 +22,7 @@ export default function decorate(block) {
   }
 
   // Build structure
-  block.classList.add('footer');
+  block.classList.add('newsletter-signup');
 
   // Left: Logos
   const leftContainer = document.createElement('div');
