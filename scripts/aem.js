@@ -616,31 +616,31 @@ async function loadHeader(header) {
   return loadBlock(headerBlock);
 }
 
-/**
- * Loads a block named 'newsletter-signup' into footer
- * @param {Element} footer footer element
- * @returns {Promise}
- */
- async function loadFooter(footer) {
-  // Fetch the markup from your footer docx
-  const resp = await fetch('/footer.plain.html');
-  const html = await resp.text();
+async function loadFooter(footer) {
+  try {
+    const resp = await fetch('/footer.plain.html');
+    if (!resp.ok) throw new Error(`Footer not found: ${resp.status}`);
+    const html = await resp.text();
 
-  // Create a temporary container
-  const temp = document.createElement('div');
-  temp.innerHTML = html;
+    const temp = document.createElement('div');
+    temp.innerHTML = html;
 
-  // Extract the newsletter-signup block from that HTML
-  const footerBlock = temp.querySelector('.block.newsletter-signup');
+    // Look for the table wrapper (EDS plain output)
+    const table = temp.querySelector('table');
+    if (!table) throw new Error('No table found in footer.plain.html');
 
-  if (footerBlock) {
+    // Build the block manually (same as in your footer.docx)
+    const footerBlock = buildBlock('newsletter-signup', table.outerHTML);
     footer.append(footerBlock);
     decorateBlock(footerBlock);
-    return loadBlock(footerBlock);
+    await loadBlock(footerBlock);
+    console.log('Footer loaded successfully!');
+  } catch (e) {
+    console.error('Error loading footer:', e);
   }
 }
-/**
- * Wait for Image.
+
+ /* Wait for Image.
  * @param {Element} section section element
  */
 async function waitForFirstImage(section) {
