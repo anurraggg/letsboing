@@ -617,7 +617,7 @@ async function loadHeader(header) {
 }
 
 /**
- * Loads and reconstructs the newsletter-signup block from footer.plain.html
+ * Safely loads and constructs the newsletter-signup block from footer.plain.html
  * @param {Element} footer
  */
  async function loadFooter(footer) {
@@ -629,10 +629,9 @@ async function loadHeader(header) {
     const temp = document.createElement('div');
     temp.innerHTML = html;
 
-    // Extract valid Type/Value pairs
+    // Extract alternating Type/Value pairs
     const divs = Array.from(temp.querySelectorAll('div'));
     const data = [];
-
     for (let i = 0; i < divs.length; i += 2) {
       const key = divs[i]?.textContent?.trim();
       const value = divs[i + 1]?.textContent?.trim();
@@ -641,14 +640,15 @@ async function loadHeader(header) {
       }
     }
 
-    // Clear any previous footer content
-    footer.innerHTML = '';
+    if (!data.length) {
+      console.warn('⚠️ No footer data found in footer.plain.html');
+      return;
+    }
 
-    // Build one clean block wrapper
+    // Build footer block safely
     const block = document.createElement('div');
     block.classList.add('block', 'newsletter-signup');
 
-    // Populate block rows
     data.forEach(({ key, value }) => {
       const row = document.createElement('div');
       const typeCell = document.createElement('div');
@@ -659,15 +659,20 @@ async function loadHeader(header) {
       block.append(row);
     });
 
-    // Append to footer
+    // Always clear and re-append before decorate
+    footer.innerHTML = '';
     footer.append(block);
 
-    // Clean up any accidental nested blocks
-    footer.querySelectorAll('.block.block').forEach((dup) => dup.remove());
+    // Extra null guard
+    if (!block || !block.classList) {
+      throw new Error('Footer block failed to build or attach.');
+    }
 
+    // Decorate and load the block
     decorateBlock(block);
     await loadBlock(block);
-    console.log('✅ Footer loaded successfully without ghost blocks!');
+
+    console.log('✅ Footer loaded, decorated, and rendered successfully!');
   } catch (e) {
     console.error('❌ Error loading footer:', e);
   }
