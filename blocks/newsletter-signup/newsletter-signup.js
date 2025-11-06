@@ -54,7 +54,7 @@ export default function decorate(block) {
   title.classList.add('title');
 
   const titleLogo = document.createElement('img');
-  titleLogo.src = data.title_logo || '/icons/aashirvad-logo.png';
+  titleLogo.src = data.title_logo || '/icons/itc-logo2.png';
   titleLogo.alt = 'AASHIRVAAD';
   title.appendChild(titleLogo);
 
