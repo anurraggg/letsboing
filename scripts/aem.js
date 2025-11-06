@@ -616,11 +616,7 @@ async function loadHeader(header) {
   return loadBlock(headerBlock);
 }
 
-/**
- * Safely loads and constructs the newsletter-signup block from footer.plain.html
- * @param {Element} footer
- */
- async function loadFooter(footer) {
+async function loadFooter(footer) {
   try {
     const resp = await fetch('/footer.plain.html');
     if (!resp.ok) throw new Error(`Footer not found: ${resp.status}`);
@@ -629,7 +625,7 @@ async function loadHeader(header) {
     const temp = document.createElement('div');
     temp.innerHTML = html;
 
-    // Extract key/value pairs (Type, Value rows)
+    // Extract alternating key/value pairs
     const divs = Array.from(temp.querySelectorAll('div'));
     const data = [];
 
@@ -646,30 +642,15 @@ async function loadHeader(header) {
       return;
     }
 
-    // Create ONE newsletter-signup wrapper — no nested blocks
-    const wrapper = document.createElement('div');
-    wrapper.classList.add('newsletter-signup'); // ❌ no "block" here yet
+    // Build nested HTML (what your decorator expects)
+    const blockHTML = data
+      .map(({ key, value }) => `<div><div>${key}</div><div>${value}</div></div>`)
+      .join('');
 
-    data.forEach(({ key, value }) => {
-      const row = document.createElement('div');
-      const typeCell = document.createElement('div');
-      const valueCell = document.createElement('div');
-      typeCell.textContent = key;
-      valueCell.textContent = value;
-      row.append(typeCell, valueCell);
-      wrapper.append(row);
-    });
-
-    // Clear footer, append the wrapper
+    const block = buildBlock('newsletter-signup', blockHTML);
     footer.innerHTML = '';
-    footer.append(wrapper);
-
-    // NOW build the block
-    const block = buildBlock('newsletter-signup', wrapper.innerHTML);
-    footer.innerHTML = ''; // replace temporary wrapper
     footer.append(block);
 
-    // Decorate & load block
     decorateBlock(block);
     await loadBlock(block);
 
@@ -678,6 +659,7 @@ async function loadHeader(header) {
     console.error('❌ Error loading footer:', e);
   }
 }
+
 
 
  /* Wait for Image.
