@@ -37,7 +37,7 @@ export default function decorate(block) {
   leftContainer.classList.add('left-logos');
 
   const logo1 = document.createElement('img');
-  logo1.src = data.logo1 || '/icons/aashirvad-logo.png';
+  logo1.src = data.logo1 || '/icons/itc-logo-2.png';
   logo1.alt = 'Aashirvaad Logo';
 
   const fssaiImg = document.createElement('img');
@@ -54,7 +54,7 @@ export default function decorate(block) {
   title.classList.add('title');
 
   const titleLogo = document.createElement('img');
-  titleLogo.src = data.title_logo || '/icons/itc-logo2.png';
+  titleLogo.src = data.title_logo || '/icons/itc-logo-2.png';
   titleLogo.alt = 'AASHIRVAAD';
   title.appendChild(titleLogo);
 
