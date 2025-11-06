@@ -623,7 +623,7 @@ async function loadHeader(header) {
  * @returns {Promise}
  */
 async function loadFooter(footer) {
-  const footerBlock = buildBlock('footer', '');
+  const footerBlock = buildBlock('newsletter-signup', '');
   footer.append(footerBlock);
   decorateBlock(footerBlock);
   return loadBlock(footerBlock);
