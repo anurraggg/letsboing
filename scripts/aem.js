@@ -629,9 +629,10 @@ async function loadHeader(header) {
     const temp = document.createElement('div');
     temp.innerHTML = html;
 
-    // Extract alternating Type/Value pairs
+    // Extract key/value pairs (Type, Value rows)
     const divs = Array.from(temp.querySelectorAll('div'));
     const data = [];
+
     for (let i = 0; i < divs.length; i += 2) {
       const key = divs[i]?.textContent?.trim();
       const value = divs[i + 1]?.textContent?.trim();
@@ -645,9 +646,9 @@ async function loadHeader(header) {
       return;
     }
 
-    // Build footer block safely
-    const block = document.createElement('div');
-    block.classList.add('block', 'newsletter-signup');
+    // Create ONE newsletter-signup wrapper — no nested blocks
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('newsletter-signup'); // ❌ no "block" here yet
 
     data.forEach(({ key, value }) => {
       const row = document.createElement('div');
@@ -656,27 +657,28 @@ async function loadHeader(header) {
       typeCell.textContent = key;
       valueCell.textContent = value;
       row.append(typeCell, valueCell);
-      block.append(row);
+      wrapper.append(row);
     });
 
-    // Always clear and re-append before decorate
+    // Clear footer, append the wrapper
     footer.innerHTML = '';
+    footer.append(wrapper);
+
+    // NOW build the block
+    const block = buildBlock('newsletter-signup', wrapper.innerHTML);
+    footer.innerHTML = ''; // replace temporary wrapper
     footer.append(block);
 
-    // Extra null guard
-    if (!block || !block.classList) {
-      throw new Error('Footer block failed to build or attach.');
-    }
-
-    // Decorate and load the block
+    // Decorate & load block
     decorateBlock(block);
     await loadBlock(block);
 
-    console.log('✅ Footer loaded, decorated, and rendered successfully!');
+    console.log('✅ Newsletter-signup footer rendered successfully!');
   } catch (e) {
     console.error('❌ Error loading footer:', e);
   }
 }
+
 
  /* Wait for Image.
  * @param {Element} section section element
