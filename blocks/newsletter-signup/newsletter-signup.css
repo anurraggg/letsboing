@@ -192,9 +192,13 @@
     max-width: 100%;
   }
 
-  img[alt="Aashirvaad Logo"] {
-    padding-bottom: 30px;
-    width: 60px;
-    height: 10px;
-  }
+  /* Specifically target the left ITC logo only */
+.newsletter-signup .left-logos img:first-child {
+  width: 100px;           /* adjust size smaller */
+  height: auto;           /* maintain aspect ratio */
+  object-fit: contain;    /* avoid stretching or pixelation */
+  image-rendering: auto;  /* smoother scaling */
+  filter: brightness(1.1); /* optional: slight brightness to counter blur */
+}
+
 }
