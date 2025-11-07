@@ -37,9 +37,10 @@
 .newsletter-signup .left-logos img:last-child {
   width: 200px;           /* make it smaller */
   height: auto;           /* preserve proportions */
-  margin-top: -10px;      /* pull it closer if needed */
+  margin-top: -5px;      /* pull it closer if needed */
   object-fit: contain;    /* prevent distortion */
   image-rendering: auto;  /* smooth scaling */
+  margin-left: -38px;
 }
 
 
@@ -62,7 +63,7 @@
   align-items: baseline;
   gap: 12px;
   text-align: center;
-  padding-left: 9rem;
+  padding-left: 11rem;
 }
 
 .newsletter-signup .title {
@@ -162,10 +163,11 @@
 .newsletter-signup .right-links .right-column {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Vertical spacing in columns */
-  padding-right: 15px;
-  margin-right: 10px;
+  gap: 21px; /* Vertical spacing in columns */
+  padding-right: 11px;
+  margin-right: 2px;
   font-weight: bold;
+  row-gap: 24px;
 }
 
 .newsletter-signup .right-links .separator {
