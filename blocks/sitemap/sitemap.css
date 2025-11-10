@@ -1,0 +1,64 @@
+/* Root container */
+.sitemap {
+    padding: 40px 20px;
+    background-color: #fff6e6;
+  }
+  
+  .sitemap__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  /* Each section (category) */
+  .sitemap__section {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding-bottom: 20px;
+  }
+  
+  .sitemap__heading {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2e1c10;
+    margin-bottom: 12px;
+  }
+  
+  /* Links under each category */
+  .sitemap__links a {
+    display: block;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #d71a28;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  .sitemap__links a:hover {
+    text-decoration: underline;
+    color: #b71520;
+  }
+  
+  /* External links styling */
+  .external-link::after {
+    content: " ↗";
+    font-size: 0.8em;
+    opacity: 0.6;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .sitemap__heading {
+      font-size: 1.1rem;
+    }
+  
+    .sitemap__links a {
+      font-size: 0.95rem;
+    }
+  
+    .sitemap {
+      padding: 24px 16px;
+    }
+  }
+  
